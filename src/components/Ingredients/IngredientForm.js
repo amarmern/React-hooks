@@ -11,18 +11,18 @@ const IngredientForm = React.memo((props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    // ...
+    props.onAddIngredient({ title: enterdtitle, amount: enteredamount });
   };
 
   const handleTitle = (e) => {
-    setEnteredTitle( e.target.value );
-    console.log(enterdtitle)
+    setEnteredTitle(e.target.value);
+    console.log(enterdtitle);
     //setInputTitle({ title: e.target.value });
   };
 
   const handleAmount = (e) => {
-    setEnteredAmount(e.target.value );
-    console.log(enteredamount)
+    setEnteredAmount(e.target.value);
+    console.log(enteredamount);
     // setInputTitle({ amount: e.target.value });
   };
   return (
@@ -38,7 +38,7 @@ const IngredientForm = React.memo((props) => {
               onChange={handleTitle}
             />
           </div>
-          <div className='form-control'>  
+          <div className='form-control'>
             <label htmlFor='amount'>Amount</label>
             <input
               type='number'

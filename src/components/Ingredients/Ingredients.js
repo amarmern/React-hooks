@@ -8,19 +8,41 @@ function Ingredients() {
   const [userIngredients, setUserIngredients] = useState([]);
 
   const addIngredientHandler = (ingredient) => {
-    setUserIngredients((prevIngredients) => [
-      ...prevIngredients,
-      { id: Math.random.toString(), ...ingredient },
-    ]);
+    fetch(
+      'https://react-hooks-bfa0a-default-rtdb.firebaseio.com/ingredients.json',
+      {
+        method: 'POST',
+        body: JSON.stringify({ ingredient }),
+        headers: { 'Content-TYpe': 'application/json' },
+      }
+    ) 
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseData) => {
+        setUserIngredients((prevIngredients) => [
+          ...prevIngredients,
+          { id: responseData.name, ...ingredient },
+        ]);
+      });
+  };
+
+  const removeIngredientHandler = (ingredientId) => {
+    setUserIngredients((prevIngredients) =>
+      prevIngredients.filter((ingredient) => ingredient.id !== ingredientId)
+    );
   };
 
   return (
     <div className='App'>
-      <IngredientForm onAddIngredient = {addIngredientHandler} />
+      <IngredientForm onAddIngredient={addIngredientHandler} />
 
       <section>
         <Search />
-        <IngredientList ingredients={userIngredients} />
+        <IngredientList
+          ingredients={userIngredients}
+          onRemoveItem={removeIngredientHandler}
+        />
       </section>
     </div>
   );
